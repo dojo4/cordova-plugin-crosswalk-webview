@@ -27,9 +27,7 @@ def SHARED_ARTIFACT_ID = "xwalk_shared_library:"
 def EMBEDD_ARTIFACT_ID = "xwalk_core_library_canary:"
 
 repositories {
-  maven {
-    mavenLocal()
-  }
+  mavenLocal()
 }
 
 if (cdvBuildMultipleApks == null) {
