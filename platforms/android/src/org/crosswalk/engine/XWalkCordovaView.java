@@ -1,5 +1,6 @@
 package org.crosswalk.engine;
 
+import org.apache.cordova.LOG;
 import org.apache.cordova.CordovaPreferences;
 import org.xwalk.core.XWalkPreferences;
 import org.xwalk.core.XWalkResourceClient;
@@ -20,9 +21,12 @@ public class XWalkCordovaView extends XWalkView implements CordovaWebViewEngine.
     protected XWalkCordovaUiClient uiClient;
     protected XWalkWebViewEngine parentEngine;
 
+    private static final String TAG = "XWalkCordovaResourceClient";
+
     private static boolean hasSetStaticPref;
     // This needs to run before the super's constructor.
     private static Context setGlobalPrefs(Context context, CordovaPreferences preferences) {
+        LOG.d(TAG, "*** XWalkCordovaView.setGlobalPrefs start");
         if (!hasSetStaticPref) {
             hasSetStaticPref = true;
             ApplicationInfo ai = null;
@@ -41,32 +45,46 @@ public class XWalkCordovaView extends XWalkView implements CordovaWebViewEngine.
             XWalkPreferences.setValue(XWalkPreferences.JAVASCRIPT_CAN_OPEN_WINDOW, true);
             XWalkPreferences.setValue(XWalkPreferences.ALLOW_UNIVERSAL_ACCESS_FROM_FILE, true);
         }
+        LOG.d(TAG, "*** XWalkCordovaView.setGlobalPrefs");
         return context;
     }
 
     public XWalkCordovaView(Context context, CordovaPreferences preferences) {
         super(setGlobalPrefs(context, preferences), (AttributeSet)null);
+        LOG.d(TAG, "*** XWalkCordovaView initialize(context, preferences)");
     }
 
     public XWalkCordovaView(Context context, AttributeSet attrs) {
         super(setGlobalPrefs(context, null), attrs);
+        LOG.d(TAG, "*** XWalkCordovaView initialize(context, attributes)");
     }
 
     void init(XWalkWebViewEngine parentEngine) {
         this.parentEngine = parentEngine;
         if (resourceClient == null) {
+            LOG.d(TAG, "*** XWalkCordovaView init(parentEngine) setting resourceClient");
             setResourceClient(new XWalkCordovaResourceClient(parentEngine));
+        } else {
+          LOG.d(TAG, "*** XWalkCordovaView init(parentEngine) resourceClient already set");
         }
+
         if (uiClient == null) {
+            LOG.d(TAG, "*** XWalkCordovaView init(parentEngine) setting UIClient");
             setUIClient(new XWalkCordovaUiClient(parentEngine));
+        } else {
+          LOG.d(TAG, "*** XWalkCordovaView init(parentEngine) uiClient already set");
         }
     }
 
     @Override
     public void setResourceClient(XWalkResourceClient client) {
+        LOG.d(TAG, "*** XWalkCordovaView setResourceClient");
         // XWalk calls this method from its constructor.
         if (client instanceof XWalkCordovaResourceClient) {
+            LOG.d(TAG, "*** XWalkCordovaView setResourceClient client is XWalkCordovaResourceClient");
             this.resourceClient = (XWalkCordovaResourceClient)client;
+        } else {
+            LOG.d(TAG, "*** XWalkCordovaView setResourceClient client is NOT XWalkCordovaResourceClient");
         }
         super.setResourceClient(client);
     }
