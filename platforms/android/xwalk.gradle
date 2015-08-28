@@ -24,7 +24,7 @@ def EMBEDDED_MODE = "embedded"
 def SHARED_MODE = "shared"
 def DEFAULT_GROUP_ID = "org.xwalk:"
 def SHARED_ARTIFACT_ID = "xwalk_shared_library:"
-def EMBEDD_ARTIFACT_ID = "xwalk_core_library:"
+def EMBEDD_ARTIFACT_ID = "xwalk_core_library_canary:"
 
 repositories {
   maven {

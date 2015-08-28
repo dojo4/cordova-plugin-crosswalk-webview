@@ -11,7 +11,7 @@ module.exports = function(context) {
         et = context.requireCordovaModule('elementtree');
 
     /** @defaults */
-    var xwalkVariables = {'xwalkVersion':'14+', 'xwalkCommandLine':'--disable-pull-to-refresh-effect',
+    var xwalkVariables = {'xwalkVersion':'15+', 'xwalkCommandLine':'--disable-pull-to-refresh-effect',
             'xwalkMode':'embedded'},
         argumentsString = context.cmdLine,
         androidPlatformDir = path.join(context.opts.projectRoot,
