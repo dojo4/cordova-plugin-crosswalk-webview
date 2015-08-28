@@ -17,6 +17,9 @@
        under the License.
 */
 
+def DEFAULT_VERSION = "org.xwalk:xwalk_core_library_canary:15+"
+def DEFAULT_COMMAND_LINE = "--disable-pull-to-refresh-effect"
+
 def EMBEDDED_MODE = "embedded"
 def SHARED_MODE = "shared"
 def DEFAULT_GROUP_ID = "org.xwalk:"
@@ -25,7 +28,7 @@ def EMBEDD_ARTIFACT_ID = "xwalk_core_library:"
 
 repositories {
   maven {
-    url 'https://download.01.org/crosswalk/releases/crosswalk/android/maven2'
+    mavenLocal()
   }
 }
 
