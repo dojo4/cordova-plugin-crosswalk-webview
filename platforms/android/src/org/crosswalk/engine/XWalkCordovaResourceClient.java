@@ -41,6 +41,7 @@ public class XWalkCordovaResourceClient extends XWalkResourceClient {
 
     public XWalkCordovaResourceClient(XWalkWebViewEngine parentEngine) {
         super(parentEngine.webView);
+        LOG.d(TAG, "CordovaWebViewClient.Initializer");
         this.parentEngine = parentEngine;
     }
 
@@ -123,5 +124,31 @@ public class XWalkCordovaResourceClient extends XWalkResourceClient {
             // When it doubt, lock it out!
             callback.onReceiveValue(false);
         }
+    }
+
+
+    /**
+     * On received client cert request.
+     * The method forwards the request to any running plugins before using the default implementation.
+     *
+     * @param view
+     * @param request
+     */
+    @Override
+    public void onReceivedClientCertRequest(XWalkView view, ClientCertRequest request)
+    {
+        LOG.d(TAG, "ON RECEIVED CLIENT CERT REQUEST");
+
+        // Check if there is some plugin which can resolve this certificate request
+        PluginManager pluginManager = this.parentEngine.pluginManager;
+        if (pluginManager != null && pluginManager.onReceivedClientCertRequest(null, new XWalkCordovaClientCertRequest(request))) {
+            LOG.d(TAG, "ON RECEIVED CLIENT CERT REQUEST SUCCEEDED IN CORDOVA PLUGIN");
+            parentEngine.client.clearLoadTimeoutTimer();
+            return;
+        }
+
+        LOG.d(TAG, "ON RECEIVED CLIENT CERT REQUEST FAILED IN CORDOVA PLUGIN. CONTINUING...");
+        // By default pass to WebViewClient
+        super.onReceivedClientCertRequest(view, request);
     }
 }
