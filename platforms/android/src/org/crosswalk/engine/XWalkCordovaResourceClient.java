@@ -28,8 +28,10 @@ import android.webkit.WebResourceResponse;
 import org.apache.cordova.CordovaResourceApi;
 import org.apache.cordova.CordovaResourceApi.OpenForReadResult;
 import org.apache.cordova.LOG;
+import org.apache.cordova.PluginManager;
 import org.xwalk.core.XWalkResourceClient;
 import org.xwalk.core.XWalkView;
+import org.xwalk.core.ClientCertRequest;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
