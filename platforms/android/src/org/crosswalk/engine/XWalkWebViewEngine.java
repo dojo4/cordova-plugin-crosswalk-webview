@@ -38,6 +38,7 @@ import org.xwalk.core.XWalkActivityDelegate;
 import org.xwalk.core.XWalkNavigationHistory;
 import org.xwalk.core.XWalkView;
 
+import org.apache.cordova.LOG;
 /**
  * Glue class between CordovaWebView (main Cordova logic) and XWalkCordovaView (the actual View).
  */
@@ -59,6 +60,7 @@ public class XWalkWebViewEngine implements CordovaWebViewEngine {
 
     /** Used when created via reflection. */
     public XWalkWebViewEngine(Context context, CordovaPreferences preferences) {
+      LOG.d(TAG, "XWalkWebViewEngine initialization");
         Runnable cancelCommand = new Runnable() {
             @Override
             public void run() {
