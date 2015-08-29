@@ -21,7 +21,7 @@ public class XWalkCordovaView extends XWalkView implements CordovaWebViewEngine.
     protected XWalkCordovaUiClient uiClient;
     protected XWalkWebViewEngine parentEngine;
 
-    private static final String TAG = "XWalkCordovaResourceClient";
+    private static final String TAG = "XWalkCordovaView";
 
     private static boolean hasSetStaticPref;
     // This needs to run before the super's constructor.

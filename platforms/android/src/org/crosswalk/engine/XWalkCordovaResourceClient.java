@@ -74,16 +74,19 @@ public class XWalkCordovaResourceClient extends XWalkResourceClient {
                 return new WebResourceResponse("text/plain", "UTF-8", null);
             }
 
+            LOG.d(TAG, "*** Getting Cordova ResourceApi");
             CordovaResourceApi resourceApi = parentEngine.resourceApi;
             Uri origUri = Uri.parse(url);
             // Allow plugins to intercept WebView requests.
             Uri remappedUri = resourceApi.remapUri(origUri);
 
             if (!origUri.equals(remappedUri)) {
+                LOG.d(TAG, "*** origUri is the same as remppaed Uri");
                 OpenForReadResult result = resourceApi.openForRead(remappedUri, true);
                 return new WebResourceResponse(result.mimeType, "UTF-8", result.inputStream);
             }
             // If we don't need to special-case the request, let the browser load it.
+            LOG.d(TAG, "*** letting browser open Uri : " + url);
             return null;
         } catch (IOException e) {
             if (!(e instanceof FileNotFoundException)) {
@@ -96,6 +99,7 @@ public class XWalkCordovaResourceClient extends XWalkResourceClient {
 
     @Override
     public boolean shouldOverrideUrlLoading(XWalkView view, String url) {
+        LOG.d(TAG, "*** shouldOverrideUrlLoading");
         return parentEngine.client.onNavigationAttempt(url);
     }
 
@@ -111,7 +115,7 @@ public class XWalkCordovaResourceClient extends XWalkResourceClient {
     public void onReceivedSslError(XWalkView view, ValueCallback<Boolean> callback, SslError error) {
         final String packageName = parentEngine.cordova.getActivity().getPackageName();
         final PackageManager pm = parentEngine.cordova.getActivity().getPackageManager();
-
+LOG.d(TAG, "*** onReceivedSslError");
         ApplicationInfo appInfo;
         try {
             appInfo = pm.getApplicationInfo(packageName, PackageManager.GET_META_DATA);

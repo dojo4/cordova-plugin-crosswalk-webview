@@ -31,6 +31,7 @@ import org.apache.cordova.CordovaResourceApi;
 import org.apache.cordova.CordovaWebView;
 import org.apache.cordova.CordovaWebViewEngine;
 import org.apache.cordova.ICordovaCookieManager;
+import org.apache.cordova.LOG;
 import org.apache.cordova.NativeToJsMessageQueue;
 import org.apache.cordova.PluginEntry;
 import org.apache.cordova.PluginManager;
@@ -38,7 +39,6 @@ import org.xwalk.core.XWalkActivityDelegate;
 import org.xwalk.core.XWalkNavigationHistory;
 import org.xwalk.core.XWalkView;
 
-import org.apache.cordova.LOG;
 /**
  * Glue class between CordovaWebView (main Cordova logic) and XWalkCordovaView (the actual View).
  */
@@ -60,7 +60,7 @@ public class XWalkWebViewEngine implements CordovaWebViewEngine {
 
     /** Used when created via reflection. */
     public XWalkWebViewEngine(Context context, CordovaPreferences preferences) {
-      LOG.d(TAG, "XWalkWebViewEngine initialization");
+        LOG.d(TAG, "***** XWalkWebViewEngine intiialization");
         Runnable cancelCommand = new Runnable() {
             @Override
             public void run() {
@@ -89,6 +89,7 @@ public class XWalkWebViewEngine implements CordovaWebViewEngine {
     public void init(CordovaWebView parentWebView, CordovaInterface cordova, CordovaWebViewEngine.Client client,
                      CordovaResourceApi resourceApi, PluginManager pluginManager,
                      NativeToJsMessageQueue nativeToJsMessageQueue) {
+        LOG.d(TAG, "**** XWalkWEbViewEngine.java init");
         if (this.cordova != null) {
             throw new IllegalStateException();
         }
@@ -197,6 +198,13 @@ public class XWalkWebViewEngine implements CordovaWebViewEngine {
 
     @Override
     public void loadUrl(String url, boolean clearNavigationStack) {
+        LOG.setLogLevel("DEBUG");
+        if ( LOG.isLoggable(LOG.DEBUG) ){
+            LOG.d(TAG, "**** DEBUG LOGGING*** ");
+        } else {
+            throw new RuntimeException("Logging is not turned on for DEBUG2 - " + LOG.LOGLEVEL);
+        }
+        LOG.d(TAG, "XWalkWebViewEngine loadURL" + url);
         if (!activityDelegate.isXWalkReady()) {
             startUrl = url;
 
