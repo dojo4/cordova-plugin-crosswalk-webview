@@ -45,6 +45,7 @@ import org.xwalk.core.XWalkView;
 public class XWalkWebViewEngine implements CordovaWebViewEngine {
 
     public static final String TAG = "XWalkWebViewEngine";
+    public static final String PREF_USER_AGENT = "xwalkUserAgent";
 
     protected final XWalkCordovaView webView;
     protected XWalkCordovaCookieManager cookieManager;
@@ -57,10 +58,13 @@ public class XWalkWebViewEngine implements CordovaWebViewEngine {
     protected NativeToJsMessageQueue nativeToJsMessageQueue;
     protected XWalkActivityDelegate activityDelegate;
     protected String startUrl;
+    protected CordovaPreferences preferences;
 
     /** Used when created via reflection. */
     public XWalkWebViewEngine(Context context, CordovaPreferences preferences) {
         LOG.d(TAG, "***** XWalkWebViewEngine intiialization");
+        this.preferences = preferences;
+
         Runnable cancelCommand = new Runnable() {
             @Override
             public void run() {
@@ -128,6 +132,10 @@ public class XWalkWebViewEngine implements CordovaWebViewEngine {
 
     private void initWebViewSettings() {
         webView.setVerticalScrollBarEnabled(false);
+        String xwalkUserAgent = preferences == null ? "" : preferences.getString(PREF_USER_AGENT, "");
+        if (!xwalkUserAgent.isEmpty()) {
+            webView.setUserAgentString(xwalkUserAgent);
+        }
     }
 
     private static void exposeJsInterface(XWalkView webView, CordovaBridge bridge) {
